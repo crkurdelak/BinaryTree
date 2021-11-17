@@ -6,6 +6,9 @@
  */
 public class BinaryTree<E> {
     // TODO implement class
+    private BinaryTree<E> _parent;
+    private BinaryTree<E> _leftChild;
+    private BinaryTree<E> _rightChild;
 
     /**
      *
@@ -59,7 +62,11 @@ public class BinaryTree<E> {
      * @return
      */
     public BinaryTree<E> setLeftChild(BinaryTree<E> child) {
-
+        // cut off current left child
+        // return old left child
+        // attach new left child
+        // _leftChild of this node is new child
+        // _parent of new child is this node
     }
 
 
@@ -87,13 +94,18 @@ public class BinaryTree<E> {
      * @return
      */
     public BinaryTree<E> setRightChild(BinaryTree<E> child) {
-
+        // cut off current right child
+        // return old right child
+        // attach new right child
+        // _rightChild of this node is new child
+        // _parent of new child is this node
     }
 
 
     /**
+     * Returns the root of this tree.
      *
-     * @return
+     * @return the root of this tree
      */
     public BinaryTree<E> getRoot() {
         //{entire tree}
@@ -101,35 +113,43 @@ public class BinaryTree<E> {
 
 
     /**
+     * Returns this subtree's parent.
      *
-     * @return
+     * @return this subtree's parent
      */
     public BinaryTree<E> getParent() {
-
+        return _parent;
     }
 
 
     /**
+     * Returns the size of this subtree.
      *
-     * @return
+     * @return the size of this subtree
      */
     public int size() {
-        // reurn size of left child + size of right child + 1
+        // return size of left child + size of right child + 1
     }
 
 
     /**
+     * Returns this subtree's size.
      *
-     * @return
+     * @return this subtree's size
      */
     public int height() {
+        // height of a tree is the max level of any of its subtrees/nodes
+        // how many edges from root of this tree to its lowest leaf
+        // level of lowest leaf
 
+        // max of height of left child and height of right child, + 1
     }
 
 
     /**
+     * Returns the level of this tree.
      *
-     * @return
+     * @return the level of this tree
      */
     public int level() {
         //{entire tree}
@@ -164,6 +184,7 @@ public class BinaryTree<E> {
      */
     public boolean isParent() {
         // have left or right child?
+        return (hasLeftChild() || hasRightChild());
     }
 
 
@@ -181,34 +202,52 @@ public class BinaryTree<E> {
      * @return
      */
     public boolean isLeaf() {
-        // have no cjildren?
+        // have no cjildren? degree == 0?
+        return this.degree() == 0;
     }
 
 
     /**
+     * Returns true if the subtree rooted at this node is full.
      *
-     * @return
+     * @return true if the subtree rooted at this node is full
      */
     public boolean isFull() {
-
+        // full tree only has leaves on level h, h = height, and every non-leaf node has 2 children
+        // full tree has 2^h leaves on level h, h being the height O(n)
+        // alternative:
+        // full tree has 2^(level number) nodes on each level
+        // if size == sum from 0 to h of 2^l, l = level, h = height, then tree is full
     }
 
 
     /**
+     * Returns true if the subtree rooted at this node is complete.
      *
-     * @return
+     * @return true if the subtree rooted at this node is complete
      */
     public boolean isComplete() {
-
+        // a complete binary tree of height h is an otherwise full binary tree with 0 or more
+        // of the rightmost leaves on level h removed
+        // full trees are also complete
     }
 
 
     /**
+     * Returns true if the subtree rooted at this node is degenerate.
      *
-     * @return
+     * @return true if the subtree rooted at this node is degenerate
      */
     public boolean isDegenerate() {
+        // degenerates into a linked list / linear structure
+        // no branches
+        // a 1-ary binary tree is termed degenerate
+        // max degree of any of the tree's nodes is 1
+        // (none of the nodes has more than one child)
+        // degree/arity of a tree is the max degree of any of its nodes
+        // the degree of a node is the number of its children (0, 1, or 2)
 
+        // if child node is degenerate, then parent node is degenerate
     }
 
 
@@ -229,6 +268,7 @@ public class BinaryTree<E> {
      */
     public boolean isParentOf(BinaryTree<E> child) {
 
+        return this.getLeftChild() == child || this.getRightChild() == child;
     }
 
 
@@ -239,6 +279,7 @@ public class BinaryTree<E> {
      */
     public boolean isSiblingOf(BinaryTree<E> sibling) {
         // have same parent?
+        return this.getParent() == sibling.getParent();
     }
 
 
