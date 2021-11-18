@@ -15,7 +15,7 @@ public class BinaryTree<E> {
     /*
     You  will  likely  want  to  create  one  or  more  private  helper  methods,  specifically
     to maintain  linkage between parent and child nodes.  Note that a user of
-    class BinaryTree should not be able to set anode’s parent directly; rather, one should set a
+    class BinaryTree should not be able to set a node’s parent directly; rather, one should set a
     left or right child, which in turn maintains the parent of the new child.
      */
 
@@ -101,6 +101,7 @@ public class BinaryTree<E> {
      * @return the old left child of this node
      */
     public BinaryTree<E> setLeftChild(BinaryTree<E> child) {
+        // TODO implement setLeftChild
         // cut off current left child
         // return old left child
         // attach new left child
@@ -136,6 +137,7 @@ public class BinaryTree<E> {
      * @return the old right child of this node
      */
     public BinaryTree<E> setRightChild(BinaryTree<E> child) {
+        // TODO implement setRightChild
         // cut off current right child
         // return old right child
         // attach new right child
@@ -151,6 +153,7 @@ public class BinaryTree<E> {
      */
     public BinaryTree<E> getRoot() {
         //{entire tree}
+        // TODO implement getRoot
     }
 
 
@@ -182,6 +185,7 @@ public class BinaryTree<E> {
      * @return this subtree's size
      */
     public int height() {
+        // TODO implement height
         // height of a tree is the max level of any of its subtrees/nodes
         // how many edges from root of this tree to its lowest leaf
         // level of lowest leaf
@@ -196,6 +200,7 @@ public class BinaryTree<E> {
      * @return the level of this tree
      */
     public int level() {
+        // TODO implement level
         //{entire tree}
         // level of parent + 1
     }
@@ -207,6 +212,7 @@ public class BinaryTree<E> {
      * @return the degree of this subtree
      */
     public int degree() {
+        // TODO implement degree
         // degree of node is count of its children
         // either 0, 1, or 2
     }
@@ -217,8 +223,7 @@ public class BinaryTree<E> {
      *
      * @return true if this tree is the root of the entire tree
      */
-    public boolean isRoot()
-    {
+    public boolean isRoot() {
         return this.getParent() == null;
     }
 
@@ -263,6 +268,7 @@ public class BinaryTree<E> {
      * @return true if the subtree rooted at this node is full
      */
     public boolean isFull() {
+        // TODO implement isFull
         // full tree only has leaves on level h, h = height, and every non-leaf node has 2 children
         // full tree has 2^h leaves on level h, h being the height O(n)
         // alternative:
@@ -277,6 +283,7 @@ public class BinaryTree<E> {
      * @return true if the subtree rooted at this node is complete
      */
     public boolean isComplete() {
+        // TODO implement isComplete
         // a complete binary tree of height h is an otherwise full binary tree with 0 or more
         // of the rightmost leaves on level h removed
         // full trees are also complete
@@ -289,6 +296,7 @@ public class BinaryTree<E> {
      * @return true if the subtree rooted at this node is degenerate
      */
     public boolean isDegenerate() {
+        // TODO implement isDegenerate
         // degenerates into a linked list / linear structure
         // no branches
         // a 1-ary binary tree is termed degenerate
@@ -308,7 +316,7 @@ public class BinaryTree<E> {
      * @return true if this tree is an ancestor of the given subtree
      */
     public boolean isAncestorOf(BinaryTree<E> descendant) {
-
+        // TODO implement isAncestorOf
     }
 
 
@@ -353,7 +361,7 @@ public class BinaryTree<E> {
      * @return true if this tree is a descendant of the given tree
      */
     public boolean isDescendantOf(BinaryTree<E> ancestor) {
-
+        // TODO implement isDescendantOf
     }
 
 
@@ -362,7 +370,7 @@ public class BinaryTree<E> {
      * @return
      */
     public Iterator<E> iterator() {
-
+        // TODO implement Iterator
     }
 
 
@@ -371,7 +379,7 @@ public class BinaryTree<E> {
      * @return
      */
     public Iterator<E> preOrderIterator() {
-
+        // TODO implement preOrderIterator
     }
 
 
@@ -380,7 +388,7 @@ public class BinaryTree<E> {
      * @return
      */
     public Iterator<E> inOrderIterator() {
-
+        // TODO implement inOrderIterator
     }
 
 
@@ -389,7 +397,7 @@ public class BinaryTree<E> {
      * @return
      */
     public Iterator<E> postOrderIterator() {
-
+        // TODO implement postOrderIterator
     }
 
 
@@ -398,7 +406,7 @@ public class BinaryTree<E> {
      * @return
      */
     public Iterator<E> levelOrderIterator() {
-
+        // TODO implement levelOrderIterator
     }
 
 
@@ -413,6 +421,7 @@ public class BinaryTree<E> {
      * tree
      */
     public String toString() {
+        // TODO implement toString
         /*
         The toString method  should  return  a  string  containing  the toString return  value  of
         each  node’s element value in the tree, as visited by an in-order traversal of the tree,
@@ -422,4 +431,3 @@ public class BinaryTree<E> {
          */
     }
 }
-
