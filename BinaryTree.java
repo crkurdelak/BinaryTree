@@ -1,65 +1,104 @@
 /**
+ * A recursive data structure, where each tree node has an optional left and right child node.
  *
- * @param <E>
+ * @param <E> the type of value stored in this tree
  *
  * @author ckurdelak20@georgefox.edu
  */
 public class BinaryTree<E> {
     // TODO implement class
+    private E _value;
     private BinaryTree<E> _parent;
     private BinaryTree<E> _leftChild;
     private BinaryTree<E> _rightChild;
 
+    /*
+    You  will  likely  want  to  create  one  or  more  private  helper  methods,  specifically
+    to maintain  linkage between parent and child nodes.  Note that a user of
+    class BinaryTree should not be able to set anode’s parent directly; rather, one should set a
+    left or right child, which in turn maintains the parent of the new child.
+     */
+
+    /*
+    Setting a left or right child to null should result in pruning the entire subtree rooted at
+    that child node, and returning a reference to that subtree’s root.
+     */
+
+    /*
+    Any method call that would result in the internal state of the entire structure becoming
+    inconsistent (i. e.,not a binary tree),  such  as  attempting  to  set  the  left  child  of
+    a  leaf  to  the  root  of  the  entire tree,  should  throw IllegalArgumentException and
+    leave  the  tree  in  a  consistent  state.   Note  that this applies if and only if the
+    specific case is not already handled by the aforementioned parent/child detaching strategy
+     */
+
+    /*
+    Any method call that requires comparing a BinaryTree<E> to null (e. g., someTree.isAncestorOf
+    (null)) should throw IllegalArgumentException, rather than spuriously returning true or false
+    due to a null parent or child at some relevant level.
+     */
+
+
     /**
+     * Constructs a new BinaryTree object.
      *
-     * @param element
+     * @param element the element to be stored in this node
      */
     public BinaryTree(E element) {
-
+        // TODO find out if this is right
+        _value = element;
+        _parent = null;
+        _leftChild = null;
+        _rightChild = null;
     }
 
 
     /**
+     * Returns the element at this node.
      *
-     * @return
+     * @return the element at this node
      */
     public E getElement() {
-
+        return _value;
     }
 
 
     /**
+     * Sets the value of this node to a new value.
      *
-     * @param element
+     * @param element the new value to be stored in this node
      */
-    public setElement(E element) {
-
+    public void setElement(E element) {
+        // TODO find out if this is right
+        _value = element;
     }
 
 
     /**
+     * Returns true if this node has a left child.
      *
-     * @return
+     * @return true if this node has a left child
      */
     public boolean hasLeftChild() {
-
+        return _leftChild != null;
     }
-    // _leftChild != null
 
 
     /**
+     * Returns the left child of this node.
      *
-     * @return
+     * @return the left child of this node
      */
     public BinaryTree<E> getLeftChild() {
-
+        return _leftChild;
     }
 
 
     /**
+     * Sets the left child of this node to a new left child.
      *
-     * @param child
-     * @return
+     * @param child the new left child of this node
+     * @return the old left child of this node
      */
     public BinaryTree<E> setLeftChild(BinaryTree<E> child) {
         // cut off current left child
@@ -71,27 +110,30 @@ public class BinaryTree<E> {
 
 
     /**
+     * Returns true if this node has a right child.
      *
-     * @return
+     * @return true if this node has a right child
      */
     public boolean hasRightChild() {
-
+        return _rightChild != null;
     }
 
 
     /**
+     * Returns the right child of this node.
      *
-     * @return
+     * @return the right child of this node
      */
     public BinaryTree<E> getRightChild() {
-
+        return _rightChild;
     }
 
 
     /**
+     * Sets the right child of this node to a new right child.
      *
-     * @param child
-     * @return
+     * @param child the new right child of this node
+     * @return the old right child of this node
      */
     public BinaryTree<E> setRightChild(BinaryTree<E> child) {
         // cut off current right child
@@ -103,9 +145,9 @@ public class BinaryTree<E> {
 
 
     /**
-     * Returns the root of this tree.
+     * Returns the root of this entire tree.
      *
-     * @return the root of this tree
+     * @return the root of this entire tree
      */
     public BinaryTree<E> getRoot() {
         //{entire tree}
@@ -129,6 +171,8 @@ public class BinaryTree<E> {
      */
     public int size() {
         // return size of left child + size of right child + 1
+        // TODO base case
+        return _leftChild.size() + _rightChild.size() + 1;
     }
 
 
@@ -158,8 +202,9 @@ public class BinaryTree<E> {
 
 
     /**
+     * Returns the degree of this subtree.
      *
-     * @return
+     * @return the degree of this subtree
      */
     public int degree() {
         // degree of node is count of its children
@@ -168,19 +213,20 @@ public class BinaryTree<E> {
 
 
     /**
+     * Returns true if this tree is the root of the entire tree.
      *
-     * @return
+     * @return true if this tree is the root of the entire tree
      */
     public boolean isRoot()
     {
-        //{entire tree}
-        // return parent == null
+        return this.getParent() == null;
     }
 
 
     /**
+     * Returns true if this subtree is a parent.
      *
-     * @return
+     * @return true if this subtree is a parent
      */
     public boolean isParent() {
         // have left or right child?
@@ -189,20 +235,24 @@ public class BinaryTree<E> {
 
 
     /**
+     * Returns true if this subtree is a child.
      *
-     * @return
+     * @return true if this subtree is a child
      */
     public boolean isChild() {
         // have parent?
+        return this.getParent() != null;
     }
 
 
     /**
+     * Returns true if this subtree is a leaf.
      *
-     * @return
+     * @return true if this subtree is a leaf
      */
     public boolean isLeaf() {
         // have no cjildren? degree == 0?
+        // TODO see if this is the best way to do it
         return this.degree() == 0;
     }
 
@@ -252,9 +302,10 @@ public class BinaryTree<E> {
 
 
     /**
+     * Returns true if this tree is an ancestor of the given subtree.
      *
-     * @param descendant
-     * @return
+     * @param descendant the subtree TODO describe this better
+     * @return true if this tree is an ancestor of the given subtree
      */
     public boolean isAncestorOf(BinaryTree<E> descendant) {
 
@@ -262,20 +313,21 @@ public class BinaryTree<E> {
 
 
     /**
+     * Returns true if this tree is the parent of the given subtree.
      *
-     * @param child
-     * @return
+     * @param child TODO describe
+     * @return true if this tree is the parent of the given subtree
      */
     public boolean isParentOf(BinaryTree<E> child) {
-
         return this.getLeftChild() == child || this.getRightChild() == child;
     }
 
 
     /**
+     * Returns true if this tree is the sibling of the given tree.
      *
-     * @param sibling
-     * @return
+     * @param sibling TODO describe
+     * @return true if this tree is the sibling of the given tree
      */
     public boolean isSiblingOf(BinaryTree<E> sibling) {
         // have same parent?
@@ -284,19 +336,21 @@ public class BinaryTree<E> {
 
 
     /**
+     * Returns true if this tree is the child of the given tree.
      *
-     * @param parent
-     * @return
+     * @param parent TODO describe
+     * @return true if this tree is the child of the given tree
      */
     public boolean isChildOf(BinaryTree<E> parent) {
-
+        return this.getParent() == parent;
     }
 
 
     /**
+     * Returns true if this tree is a descendant of the given tree.
      *
-     * @param ancestor
-     * @return
+     * @param ancestor TODO describe
+     * @return true if this tree is a descendant of the given tree
      */
     public boolean isDescendantOf(BinaryTree<E> ancestor) {
 
@@ -349,11 +403,23 @@ public class BinaryTree<E> {
 
 
     /**
+     * Returns a string containing the toString return value of each node's element value in the
+     * tree.
      *
-     * @return
+     * Returns strings as visited by an in-order transversal of the tree, joined by comma-space,
+     * e.g. "A, D, B, E, C".
+     *
+     * @return a string containing the toString return value of each node's element value in the
+     * tree
      */
     public String toString() {
-
+        /*
+        The toString method  should  return  a  string  containing  the toString return  value  of
+        each  node’s element value in the tree, as visited by an in-order traversal of the tree,
+        joined by comma-space, e. g.,"A, D, B, E, C".  It is permissible to also include a [ prefix
+        and ] suffix, if and only if you are using a utility toString method to generate the
+        string.
+         */
     }
 }
 
