@@ -422,6 +422,7 @@ public class BinaryTree<E> {
      */
     public String toString() {
         // TODO implement toString
+
         /*
         The toString method  should  return  a  string  containing  the toString return  value  of
         each  node’s element value in the tree, as visited by an in-order traversal of the tree,
