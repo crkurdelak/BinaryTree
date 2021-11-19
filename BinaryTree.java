@@ -1,4 +1,6 @@
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * A recursive data structure, where each tree node has an optional left and right child node.
@@ -14,7 +16,6 @@ public class BinaryTree<E> implements Iterable<E> {
     private BinaryTree<E> _leftChild;
     private BinaryTree<E> _rightChild;
 
-    // TODO make 4 different inner iterator classes
 
     /*
     You  will  likely  want  to  create  one  or  more  private  helper  methods,  specifically
@@ -73,7 +74,6 @@ public class BinaryTree<E> implements Iterable<E> {
      * @param element the new value to be stored in this node
      */
     public void setElement(E element) {
-        // TODO find out if this is right
         _value = element;
     }
 
@@ -106,11 +106,28 @@ public class BinaryTree<E> implements Iterable<E> {
      */
     public BinaryTree<E> setLeftChild(BinaryTree<E> child) {
         // TODO implement setLeftChild
+
+        BinaryTree<E> oldChild = getLeftChild();
         // cut off current left child
-        // return old left child
+        _leftChild = null;
+        if (child.isChild()) {
+            BinaryTree<E> oldParent = child.getParent();
+            if (this.isLeftChildOf(oldParent)) {
+                oldParent._leftChild = null;
+            }
+            else {
+                oldParent._rightChild = null;
+            }
+        }
         // attach new left child
+        _leftChild = child;
         // _leftChild of this node is new child
         // _parent of new child is this node
+
+        child.setParent(this);
+
+        // return old left child
+        return oldChild;
     }
 
 
@@ -144,9 +161,14 @@ public class BinaryTree<E> implements Iterable<E> {
         // TODO implement setRightChild
         // cut off current right child
         // return old right child
+        BinaryTree<E> oldChild = getRightChild();
         // attach new right child
+        _rightChild = child;
         // _rightChild of this node is new child
         // _parent of new child is this node
+        child.setParent(this);
+
+        return oldChild;
     }
 
 
@@ -177,16 +199,23 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return the size of this subtree
      */
     public int size() {
+        int size = 0;
+
+        if (this.hasLeftChild()) {
+            size += this.getLeftChild().size();
+        }
+        if (this.hasRightChild()) {
+            size += this.getRightChild().size();
+        }
         // return size of left child + size of right child + 1
-        // TODO base case
-        return _leftChild.size() + _rightChild.size() + 1;
+        return size + 1;
     }
 
 
     /**
-     * Returns this subtree's size.
+     * Returns the height of this subtree.
      *
-     * @return this subtree's size
+     * @return the height of this subtree
      */
     public int height() {
         // TODO implement height
@@ -472,12 +501,52 @@ public class BinaryTree<E> implements Iterable<E> {
         // ctor:
         // inOrder() (private helper that enqueues stuff according to algorithm rules)
 
+        /**
+         *
+         * @param tree
+         */
+        public InOrderIterator(BinaryTree<E> tree) {
+            _queue = new LinkedList<E>();
+            this.inOrder(tree);
+        }
+
+
+        /**
+         *
+         * @param tree
+         * @return
+         */
+        private void inOrder(BinaryTree<E> tree) {
+            _queue.enqueue(tree.getElement());
+            inOrder(tree.getLeftChild());
+            inOrder(tree.getRightChild());
+        }
         // inOrder {
         //  inOrder(leftChild)
         //  inOrder(rightChild)
         // }
 
+
+        /**
+         *
+         * @return
+         */
+        public boolean hasNext() {
+            // TODO implement hasNext()
+            return false;
+        }
+
+
         // next() just goes thru queue
+
+        /**
+         *
+         * @return
+         */
+        public E next() {
+            // TODO implement next()
+            return null;
+        }
 
         // recursive private helper method
 
@@ -516,6 +585,37 @@ public class BinaryTree<E> implements Iterable<E> {
 
         // stack or *queue* to store children to visit later
         // check Bailey book for more on algorithms
+    }
+
+
+    /**
+     * Sets the parent of this subtree to a new parent.
+     *
+     * @param parent the new parent of this subtree
+     */
+    private void setParent(BinaryTree<E> parent) {
+        // TODO implement setParent
+        _parent = parent;
+    }
+
+
+    /**
+     *
+     * @param parent
+     * @return
+     */
+    private boolean isLeftChildOf(BinaryTree<E> parent) {
+        return this == parent.getLeftChild();
+    }
+
+
+    /**
+     *
+     * @param parent
+     * @return
+     */
+    private boolean isRightChildOf(BinaryTree<E> parent) {
+        return this == parent.getRightChild();
     }
 
 }
