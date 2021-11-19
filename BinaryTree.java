@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 /**
  * A recursive data structure, where each tree node has an optional left and right child node.
  *
@@ -5,12 +7,14 @@
  *
  * @author ckurdelak20@georgefox.edu
  */
-public class BinaryTree<E> {
+public class BinaryTree<E> implements Iterable<E> {
     // TODO implement class
     private E _value;
     private BinaryTree<E> _parent;
     private BinaryTree<E> _leftChild;
     private BinaryTree<E> _rightChild;
+
+    // TODO make 4 different inner iterator classes
 
     /*
     You  will  likely  want  to  create  one  or  more  private  helper  methods,  specifically
@@ -299,13 +303,16 @@ public class BinaryTree<E> {
         // TODO implement isDegenerate
         // degenerates into a linked list / linear structure
         // no branches
-        // a 1-ary binary tree is termed degenerate
+        // a binary tree with max arity of 1 is termed degenerate
         // max degree of any of the tree's nodes is 1
         // (none of the nodes has more than one child)
         // degree/arity of a tree is the max degree of any of its nodes
         // the degree of a node is the number of its children (0, 1, or 2)
 
         // if child node is degenerate, then parent node is degenerate
+        // a tree of only one node is degenerate
+
+        // a size n tree with a height of n-1 is degenerate
     }
 
 
@@ -371,6 +378,7 @@ public class BinaryTree<E> {
      */
     public Iterator<E> iterator() {
         // TODO implement Iterator
+        return inOrderIterator();
     }
 
 
@@ -431,4 +439,83 @@ public class BinaryTree<E> {
         string.
          */
     }
+
+
+    /**
+     *
+     */
+    private class PreOrderIterator<E> implements Iterator<E> {
+        // TODO implement PreOrderIterator
+
+        // recursive
+
+        // visit self
+        // visit left child
+        // visit right child
+
+        // can start at any node and iterate over its subtree
+
+        // self first
+        // left child's subtree in pre-order second (recursive)
+        // right child's subtree in pre-order third (recursive)
+    }
+
+
+    /**
+     *
+     */
+    private class InOrderIterator<E> implements Iterator<E> {
+        // TODO implement InOrderIterator
+
+        private Queue<E> _queue; // initialize this as a LinkedList
+
+        // ctor:
+        // inOrder() (private helper that enqueues stuff according to algorithm rules)
+
+        // inOrder {
+        //  inOrder(leftChild)
+        //  inOrder(rightChild)
+        // }
+
+        // next() just goes thru queue
+
+        // recursive private helper method
+
+        // recursive
+
+        // visit left child's subtree
+        // visit self
+        // visit right child's subtree
+    }
+
+
+    /**
+     *
+     */
+    private class PostOrderIterator<E> implements Iterator<E> {
+        // TODO implement PostOrderIterator
+
+        // recursive
+
+        // visit left child's subtree
+        // visit right child's subtree
+        // visit self
+    }
+
+
+    /**
+     *
+     */
+    private class LevelOrderIterator<E> implements Iterator<E> {
+        // TODO implement LevelOrderIterator
+
+        // very different from other traversals
+
+        // visit nodes from level 0 to level h,
+        // from left to right within a level
+
+        // stack or *queue* to store children to visit later
+        // check Bailey book for more on algorithms
+    }
+
 }
