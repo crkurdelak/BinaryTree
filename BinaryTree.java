@@ -224,6 +224,24 @@ public class BinaryTree<E> implements Iterable<E> {
         // level of lowest leaf
 
         // max of height of left child and height of right child, + 1
+        int height = 0;
+        int leftHeight = 0;
+        int rightHeight = 0;
+
+        if (isLeaf()){
+            height = 1;
+        }
+        else {
+            if (this.hasLeftChild()) {
+                leftHeight = this.getLeftChild().height();
+            }
+            if (this.hasRightChild()) {
+                rightHeight = this.getRightChild().height();
+            }
+            height = Math.max(leftHeight, rightHeight) + 1;
+        }
+
+        return height;
     }
 
 
@@ -248,6 +266,21 @@ public class BinaryTree<E> implements Iterable<E> {
         // TODO implement degree
         // degree of node is count of its children
         // either 0, 1, or 2
+        int degree;
+
+        if (this.isParent()) {
+            if (this.hasLeftChild() && this.hasRightChild()) {
+                degree = 2;
+            }
+            else {
+                degree = 1;
+            }
+        }
+        else {
+            degree = 0;
+        }
+
+        return degree;
     }
 
 
@@ -342,6 +375,7 @@ public class BinaryTree<E> implements Iterable<E> {
         // a tree of only one node is degenerate
 
         // a size n tree with a height of n-1 is degenerate
+        return this.height() == this.size() - 1;
     }
 
 
@@ -417,6 +451,7 @@ public class BinaryTree<E> implements Iterable<E> {
      */
     public Iterator<E> preOrderIterator() {
         // TODO implement preOrderIterator
+        return new preOrderIterator(this);
     }
 
 
@@ -426,6 +461,7 @@ public class BinaryTree<E> implements Iterable<E> {
      */
     public Iterator<E> inOrderIterator() {
         // TODO implement inOrderIterator
+        return new inOrderIterator(this);
     }
 
 
@@ -435,6 +471,7 @@ public class BinaryTree<E> implements Iterable<E> {
      */
     public Iterator<E> postOrderIterator() {
         // TODO implement postOrderIterator
+        return new postOrderIterator(this);
     }
 
 
@@ -444,6 +481,7 @@ public class BinaryTree<E> implements Iterable<E> {
      */
     public Iterator<E> levelOrderIterator() {
         // TODO implement levelOrderIterator
+        return new levelOrderIterator(this);
     }
 
 
