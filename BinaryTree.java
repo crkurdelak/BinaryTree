@@ -51,7 +51,6 @@ public class BinaryTree<E> implements Iterable<E> {
      * @param element the element to be stored in this node
      */
     public BinaryTree(E element) {
-        // TODO find out if this is all the internal state needeed
         _value = element;
         _parent = null;
         _leftChild = null;
@@ -104,32 +103,31 @@ public class BinaryTree<E> implements Iterable<E> {
      *
      * @param child the new left child of this node
      * @return the old left child of this node
+     * @throws IllegalArgumentException if child is an ancestor of this tree
      */
     public BinaryTree<E> setLeftChild(BinaryTree<E> child) {
-        // TODO are we thinking about this the right way?
-        // TODO keep it from setting weird stuff
+        if (! child.isAncestorOf(this)) {
+            BinaryTree<E> oldChild = getLeftChild();
 
-        BinaryTree<E> oldChild = getLeftChild();
-        // cut off current left child
-        _leftChild = null;
-        if (child.isChild()) {
-            BinaryTree<E> oldParent = child.getParent();
-            if (this.isLeftChildOf(oldParent)) {
-                oldParent._leftChild = null;
+            _leftChild = null;
+
+            if (child.isChild()) {
+                BinaryTree<E> oldParent = child.getParent();
+                if (this.isLeftChildOf(oldParent)) {
+                    oldParent._leftChild = null;
+                } else {
+                    oldParent._rightChild = null;
+                }
             }
-            else {
-                oldParent._rightChild = null;
-            }
+
+            _leftChild = child;
+            child.setParent(this);
+
+            return oldChild;
         }
-        // attach new left child
-        _leftChild = child;
-        // _leftChild of this node is new child
-        // _parent of new child is this node
-
-        child.setParent(this);
-
-        // return old left child
-        return oldChild;
+        else {
+            throw new IllegalArgumentException();
+        }
     }
 
 
@@ -158,23 +156,31 @@ public class BinaryTree<E> implements Iterable<E> {
      *
      * @param child the new right child of this node
      * @return the old right child of this node
+     * @throws IllegalArgumentException if child is an ancestor of this tree
      */
     public BinaryTree<E> setRightChild(BinaryTree<E> child) {
-        // TODO implement setRightChild
-        // TODO stop it from setting weird stuff
+        if (! child.isAncestorOf(this)) {
+            BinaryTree<E> oldChild = getRightChild();
 
-        // copy from setLeftChild and change what needs to be changed
+            _leftChild = null;
 
-        // cut off current right child
-        // return old right child
-        BinaryTree<E> oldChild = getRightChild();
-        // attach new right child
-        _rightChild = child;
-        // _rightChild of this node is new child
-        // _parent of new child is this node
-        child.setParent(this);
+            if (child.isChild()) {
+                BinaryTree<E> oldParent = child.getParent();
+                if (this.isLeftChildOf(oldParent)) {
+                    oldParent._leftChild = null;
+                } else {
+                    oldParent._rightChild = null;
+                }
+            }
 
-        return oldChild;
+            _rightChild = child;
+            child.setParent(this);
+
+            return oldChild;
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
     }
 
 
@@ -184,9 +190,16 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return the root of this entire tree
      */
     public BinaryTree<E> getRoot() {
-        //{entire tree}
-        // TODO implement getRoot
-        // where do we start on the tree in order to find the root?
+        BinaryTree<E> root;
+
+        if (isChild()) {
+            root = this.getParent().getRoot();
+        }
+        else {
+            root = this;
+        }
+
+        return root;
     }
 
 
@@ -225,13 +238,6 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return the height of this subtree
      */
     public int height() {
-        // TODO are we thinking about this the right way?
-
-        // height of a tree is the max level of any of its subtrees/nodes
-        // how many edges from root of this tree to its lowest leaf
-        // level of lowest leaf
-
-        // max of height of left child and height of right child, + 1
         int height = 0;
         int leftHeight = 0;
         int rightHeight = 0;
@@ -259,25 +265,28 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return the level of this tree
      */
     public int level() {
-        // TODO implement level
-        // how do we find the level, and where on the tree do we start?
+        int level;
 
-        // level = length of path from this node to root of entire tree
+        if (! this.isChild()) {
+            level = 0;
+        }
+        else {
+            level = this.getParent().level() + 1;
+        }
 
-        //{entire tree}
-        // level of parent + 1
-        // recursive
+        return level;
     }
 
 
     /**
      * Returns the degree of this subtree.
      *
+     * The degree of a tree is the number of its children. The degree of a binary tree can only
+     * be 0, 1, or 2.
+     *
      * @return the degree of this subtree
      */
     public int degree() {
-        // degree of node is count of its children
-        // either 0, 1, or 2
         int degree;
 
         if (this.isParent()) {
@@ -312,7 +321,6 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return true if this subtree is a parent
      */
     public boolean isParent() {
-        // have left or right child?
         return (hasLeftChild() || hasRightChild());
     }
 
@@ -323,7 +331,6 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return true if this subtree is a child
      */
     public boolean isChild() {
-        // have parent?
         return this.getParent() != null;
     }
 
@@ -375,23 +382,11 @@ public class BinaryTree<E> implements Iterable<E> {
     /**
      * Returns true if the subtree rooted at this node is degenerate.
      *
+     * A size n tree with a height of n-1 is degenerate.
+     *
      * @return true if the subtree rooted at this node is degenerate
      */
     public boolean isDegenerate() {
-        // TODO are we thinking about this the right way?
-
-        // degenerates into a linked list / linear structure
-        // no branches
-        // a binary tree with max arity of 1 is termed degenerate
-        // max degree of any of the tree's nodes is 1
-        // (none of the nodes has more than one child)
-        // degree/arity of a tree is the max degree of any of its nodes
-        // the degree of a node is the number of its children (0, 1, or 2)
-
-        // if child node is degenerate, then parent node is degenerate
-        // a tree of only one node is degenerate
-
-        // a size n tree with a height of n-1 is degenerate
         return this.height() == this.size() - 1;
     }
 
@@ -403,8 +398,21 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return true if this tree is an ancestor of the given subtree
      */
     public boolean isAncestorOf(BinaryTree<E> descendant) {
-        // TODO implement isAncestorOf
-        // where on the tree do we start and how do we travel through the tree?
+        boolean isAncestor;
+
+        if (this.isParentOf(descendant)) {
+            isAncestor = true;
+        }
+        else {
+            if (descendant.getParent() != null) {
+                isAncestor = this.isAncestorOf(descendant.getParent());
+            }
+            else {
+                isAncestor = false;
+            }
+        }
+
+        return isAncestor;
     }
 
 
@@ -449,8 +457,21 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return true if this tree is a descendant of the given tree
      */
     public boolean isDescendantOf(BinaryTree<E> ancestor) {
-        // TODO implement isDescendantOf
-        // where on the tree do we start and how do we travel through the tree?
+        boolean isDescendant;
+
+        if (ancestor.isParentOf(this)) {
+            isDescendant = true;
+        }
+        else {
+            if (this.getParent() != null) {
+                isDescendant = this.getParent().isDescendantOf(ancestor);
+            }
+            else {
+                isDescendant = false;
+            }
+        }
+
+        return isDescendant;
     }
 
 
@@ -500,7 +521,6 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return a new iterator that uses level-order traversal
      */
     public Iterator<E> levelOrderIterator() {
-        // TODO implement levelOrderIterator
         return new LevelOrderIterator(this);
     }
 
@@ -762,10 +782,15 @@ public class BinaryTree<E> implements Iterable<E> {
      * Sets the parent of this subtree to a new parent.
      *
      * @param parent the new parent of this subtree
+     * @throws IllegalArgumentException if parent is a descendant of this tree
      */
     private void setParent(BinaryTree<E> parent) {
-        // TODO implement setParent
-        _parent = parent;
+        if (! parent.isDescendantOf(this)) {
+            _parent = parent;
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
     }
 
 
