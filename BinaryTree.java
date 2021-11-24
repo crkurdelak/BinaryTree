@@ -50,7 +50,7 @@ public class BinaryTree<E> implements Iterable<E> {
      * @param element the element to be stored in this node
      */
     public BinaryTree(E element) {
-        // TODO find out if this is right
+        // TODO find out if this is all the internal state needeed
         _value = element;
         _parent = null;
         _leftChild = null;
@@ -180,6 +180,7 @@ public class BinaryTree<E> implements Iterable<E> {
     public BinaryTree<E> getRoot() {
         //{entire tree}
         // TODO implement getRoot
+        // where do we start on the tree in order to find the root?
     }
 
 
@@ -218,7 +219,8 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return the height of this subtree
      */
     public int height() {
-        // TODO implement height
+        // TODO are we thinking about this the right way?
+
         // height of a tree is the max level of any of its subtrees/nodes
         // how many edges from root of this tree to its lowest leaf
         // level of lowest leaf
@@ -252,8 +254,11 @@ public class BinaryTree<E> implements Iterable<E> {
      */
     public int level() {
         // TODO implement level
+        // how do we find the level, and where on the tree do we start?
+
         //{entire tree}
         // level of parent + 1
+        // recursive
     }
 
 
@@ -263,7 +268,8 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return the degree of this subtree
      */
     public int degree() {
-        // TODO implement degree
+        // TODO are we thinking about this the right way?
+
         // degree of node is count of its children
         // either 0, 1, or 2
         int degree;
@@ -323,8 +329,7 @@ public class BinaryTree<E> implements Iterable<E> {
      */
     public boolean isLeaf() {
         // have no cjildren? degree == 0?
-        // TODO see if this is the best way to do it
-        return this.degree() == 0;
+        return ! this.isParent();
     }
 
 
@@ -335,6 +340,8 @@ public class BinaryTree<E> implements Iterable<E> {
      */
     public boolean isFull() {
         // TODO implement isFull
+        // which algorithm do we use? where on the tree do we start?
+
         // full tree only has leaves on level h, h = height, and every non-leaf node has 2 children
         // full tree has 2^h leaves on level h, h being the height O(n)
         // alternative:
@@ -350,6 +357,9 @@ public class BinaryTree<E> implements Iterable<E> {
      */
     public boolean isComplete() {
         // TODO implement isComplete
+        // can we use this method in isFull or use isFull in this method?
+        // where on the tree do we start?
+
         // a complete binary tree of height h is an otherwise full binary tree with 0 or more
         // of the rightmost leaves on level h removed
         // full trees are also complete
@@ -362,7 +372,8 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return true if the subtree rooted at this node is degenerate
      */
     public boolean isDegenerate() {
-        // TODO implement isDegenerate
+        // TODO are we thinking about this the right way?
+
         // degenerates into a linked list / linear structure
         // no branches
         // a binary tree with max arity of 1 is termed degenerate
@@ -387,13 +398,14 @@ public class BinaryTree<E> implements Iterable<E> {
      */
     public boolean isAncestorOf(BinaryTree<E> descendant) {
         // TODO implement isAncestorOf
+        // where on the tree do we start and how do we travel through the tree?
     }
 
 
     /**
      * Returns true if this tree is the parent of the given subtree.
      *
-     * @param child TODO describe
+     * @param child the subtree TODO describe better
      * @return true if this tree is the parent of the given subtree
      */
     public boolean isParentOf(BinaryTree<E> child) {
@@ -404,7 +416,7 @@ public class BinaryTree<E> implements Iterable<E> {
     /**
      * Returns true if this tree is the sibling of the given tree.
      *
-     * @param sibling TODO describe
+     * @param sibling the tree TODO describe better
      * @return true if this tree is the sibling of the given tree
      */
     public boolean isSiblingOf(BinaryTree<E> sibling) {
@@ -416,7 +428,7 @@ public class BinaryTree<E> implements Iterable<E> {
     /**
      * Returns true if this tree is the child of the given tree.
      *
-     * @param parent TODO describe
+     * @param parent the tree TODO describe better
      * @return true if this tree is the child of the given tree
      */
     public boolean isChildOf(BinaryTree<E> parent) {
@@ -427,60 +439,69 @@ public class BinaryTree<E> implements Iterable<E> {
     /**
      * Returns true if this tree is a descendant of the given tree.
      *
-     * @param ancestor TODO describe
+     * @param ancestor the tree TODO describe better
      * @return true if this tree is a descendant of the given tree
      */
     public boolean isDescendantOf(BinaryTree<E> ancestor) {
         // TODO implement isDescendantOf
+        // where on the tree do we start and how do we travel through the tree?
     }
 
 
     /**
+     * Returns a new iterator that uses in-order traversal.
      *
-     * @return
+     * @return a new iterator that uses in-order traversal
      */
     public Iterator<E> iterator() {
-        // TODO implement Iterator
         return inOrderIterator();
     }
 
 
     /**
+     * Returns a new iterator that uses pre-order traversal.
      *
-     * @return
+     * @return a new iterator that uses pre-order traversal
      */
     public Iterator<E> preOrderIterator() {
         // TODO implement preOrderIterator
+        // why is text red?
         return new preOrderIterator(this);
     }
 
 
     /**
+     * Returns a new iterator that uses in-order traversal.
      *
-     * @return
+     * @return a new iterator that uses in-order traversal
      */
     public Iterator<E> inOrderIterator() {
         // TODO implement inOrderIterator
+        // why is text red?
         return new inOrderIterator(this);
     }
 
 
     /**
+     * Returns a new iterator that uses post-order traversal.
      *
-     * @return
+     * @return a new iterator that uses post-order traversal
      */
     public Iterator<E> postOrderIterator() {
         // TODO implement postOrderIterator
+        // why is text red?
         return new postOrderIterator(this);
     }
 
 
     /**
+     * Returns a new iterator that uses level-order traversal.
      *
-     * @return
+     * @return a new iterator that uses level-order traversal
      */
     public Iterator<E> levelOrderIterator() {
         // TODO implement levelOrderIterator
+        // why is text red?
         return new levelOrderIterator(this);
     }
 
@@ -497,6 +518,9 @@ public class BinaryTree<E> implements Iterable<E> {
      */
     public String toString() {
         // TODO implement toString
+        // use the in-order iterator, and on each iteration, add the value to the string
+        // delimit values with commas and spaces
+        // StringBuilder?
 
         /*
         The toString method  should  return  a  string  containing  the toString return  value  of
@@ -509,7 +533,7 @@ public class BinaryTree<E> implements Iterable<E> {
 
 
     /**
-     *
+     * An iterator that uses pre-order traversal to traverse a binary tree.
      */
     private class PreOrderIterator<E> implements Iterator<E> {
         // TODO implement PreOrderIterator
@@ -529,7 +553,7 @@ public class BinaryTree<E> implements Iterable<E> {
 
 
     /**
-     *
+     * An iterator that uses in-order traversal to traverse a binary tree.
      */
     private class InOrderIterator<E> implements Iterator<E> {
         // TODO implement InOrderIterator
@@ -555,6 +579,7 @@ public class BinaryTree<E> implements Iterable<E> {
          * @return
          */
         private void inOrder(BinaryTree<E> tree) {
+            // TODO find out why enqueue is red
             _queue.enqueue(tree.getElement());
             inOrder(tree.getLeftChild());
             inOrder(tree.getRightChild());
@@ -571,6 +596,7 @@ public class BinaryTree<E> implements Iterable<E> {
          */
         public boolean hasNext() {
             // TODO implement hasNext()
+            // is there another thing in the queue?
             return false;
         }
 
@@ -597,7 +623,7 @@ public class BinaryTree<E> implements Iterable<E> {
 
 
     /**
-     *
+     * An iterator that uses post-order traversal to traverse a binary tree.
      */
     private class PostOrderIterator<E> implements Iterator<E> {
         // TODO implement PostOrderIterator
@@ -611,7 +637,7 @@ public class BinaryTree<E> implements Iterable<E> {
 
 
     /**
-     *
+     * An iterator that uses level-order traversal to traverse a binary tree.
      */
     private class LevelOrderIterator<E> implements Iterator<E> {
         // TODO implement LevelOrderIterator
@@ -638,9 +664,10 @@ public class BinaryTree<E> implements Iterable<E> {
 
 
     /**
+     * Returns true if this tree is the left child of the given tree.
      *
-     * @param parent
-     * @return
+     * @param parent the given tree
+     * @return true if this tree is the left child of the given tree
      */
     private boolean isLeftChildOf(BinaryTree<E> parent) {
         return this == parent.getLeftChild();
@@ -648,9 +675,10 @@ public class BinaryTree<E> implements Iterable<E> {
 
 
     /**
+     * Returns true if this tree is the right child of the given tree.
      *
-     * @param parent
-     * @return
+     * @param parent the given tree
+     * @return true if this tree is the right child of the given tree
      */
     private boolean isRightChildOf(BinaryTree<E> parent) {
         return this == parent.getRightChild();
