@@ -1,5 +1,6 @@
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 import java.util.Queue;
 
 /**
@@ -105,7 +106,8 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return the old left child of this node
      */
     public BinaryTree<E> setLeftChild(BinaryTree<E> child) {
-        // TODO implement setLeftChild
+        // TODO are we thinking about this the right way?
+        // TODO keep it from setting weird stuff
 
         BinaryTree<E> oldChild = getLeftChild();
         // cut off current left child
@@ -159,6 +161,10 @@ public class BinaryTree<E> implements Iterable<E> {
      */
     public BinaryTree<E> setRightChild(BinaryTree<E> child) {
         // TODO implement setRightChild
+        // TODO stop it from setting weird stuff
+
+        // copy from setLeftChild and change what needs to be changed
+
         // cut off current right child
         // return old right child
         BinaryTree<E> oldChild = getRightChild();
@@ -256,6 +262,8 @@ public class BinaryTree<E> implements Iterable<E> {
         // TODO implement level
         // how do we find the level, and where on the tree do we start?
 
+        // level = length of path from this node to root of entire tree
+
         //{entire tree}
         // level of parent + 1
         // recursive
@@ -268,8 +276,6 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return the degree of this subtree
      */
     public int degree() {
-        // TODO are we thinking about this the right way?
-
         // degree of node is count of its children
         // either 0, 1, or 2
         int degree;
@@ -556,60 +562,71 @@ public class BinaryTree<E> implements Iterable<E> {
      * An iterator that uses in-order traversal to traverse a binary tree.
      */
     private class InOrderIterator<E> implements Iterator<E> {
-        // TODO implement InOrderIterator
-
         private Queue<E> _queue; // initialize this as a LinkedList
+        Iterator<E> _queueIter;
 
         // ctor:
         // inOrder() (private helper that enqueues stuff according to algorithm rules)
 
         /**
+         * Constructs a new InOrderIterator.
          *
-         * @param tree
+         * @param tree the tree to iterate over
          */
         public InOrderIterator(BinaryTree<E> tree) {
             _queue = new LinkedList<E>();
             this.inOrder(tree);
+            _queueIter = _queue.iterator();
         }
 
 
         /**
+         * Populates a queue with the elements of the tree in the correct order.
          *
-         * @param tree
+         * A private recursive helper method.
+         *
+         * @param tree the tree to iterate over
          * @return
          */
         private void inOrder(BinaryTree<E> tree) {
-            // TODO find out why enqueue is red
-            _queue.enqueue(tree.getElement());
-            inOrder(tree.getLeftChild());
-            inOrder(tree.getRightChild());
+            // visit left child
+            if (tree.hasLeftChild()) {
+                inOrder(tree.getLeftChild());
+            }
+            // visit self
+            _queue.add(tree.getElement());
+            // visit right child
+            if (tree.hasRightChild()) {
+                inOrder(tree.getRightChild());
+            }
         }
-        // inOrder {
-        //  inOrder(leftChild)
-        //  inOrder(rightChild)
-        // }
 
 
         /**
+         * Returns true if there is another element in this iteration.
          *
-         * @return
+         * @return true if there is another element in this iteration
          */
         public boolean hasNext() {
-            // TODO implement hasNext()
-            // is there another thing in the queue?
-            return false;
+            return _queueIter.hasNext();
         }
 
 
         // next() just goes thru queue
 
         /**
+         * Returns the next element in this iteration.
          *
-         * @return
+         * @return the next element in this iteration
+         * @throws NoSuchElementException if there are no more elements in the iteration
          */
         public E next() {
-            // TODO implement next()
-            return null;
+            if (hasNext()) {
+                return _queueIter.next();
+            }
+            else {
+                throw new NoSuchElementException();
+            }
         }
 
         // recursive private helper method
