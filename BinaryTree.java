@@ -360,6 +360,15 @@ public class BinaryTree<E> implements Iterable<E> {
         // alternative:
         // full tree has 2^(level number) nodes on each level
         // if size == sum from 0 to h of 2^l, l = level, h = height, then tree is full
+
+        int sum = 0;
+        int height = this.height();
+
+        for (int level = 0; level < height; level++) {
+            sum += Math.pow(2, level);
+        }
+
+        return this.size() == sum;
     }
 
 
@@ -376,6 +385,23 @@ public class BinaryTree<E> implements Iterable<E> {
         // a complete binary tree of height h is an otherwise full binary tree with 0 or more
         // of the rightmost leaves on level h removed
         // full trees are also complete
+
+        // bailey book solutions to review question
+
+        // complete?
+        // left full, right complete, height left = height right
+        // right full, left complete, height right = height left + 1
+
+        boolean complete = false;
+
+        if (this.isLeaf()) {
+            complete = true;
+        }
+        else {
+
+        }
+
+        return complete;
     }
 
 
@@ -539,6 +565,10 @@ public class BinaryTree<E> implements Iterable<E> {
         // use the in-order iterator, and on each iteration, add the value to the string
         // delimit values with commas and spaces
         // StringBuilder?
+        for (E element : this) {
+            // TODO build string
+        }
+
 
         /*
         The toString method  should  return  a  string  containing  the toString return  value  of
