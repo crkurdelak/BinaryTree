@@ -394,7 +394,7 @@ public class BinaryTree<E> implements Iterable<E> {
     /**
      * Returns true if this tree is an ancestor of the given subtree.
      *
-     * @param descendant the subtree TODO describe this better
+     * @param descendant the other tree to test if this tree is the ancestor of
      * @return true if this tree is an ancestor of the given subtree
      */
     public boolean isAncestorOf(BinaryTree<E> descendant) {
@@ -419,7 +419,7 @@ public class BinaryTree<E> implements Iterable<E> {
     /**
      * Returns true if this tree is the parent of the given subtree.
      *
-     * @param child the subtree TODO describe better
+     * @param child the other tree to test if this tree is the parent of
      * @return true if this tree is the parent of the given subtree
      */
     public boolean isParentOf(BinaryTree<E> child) {
@@ -430,11 +430,10 @@ public class BinaryTree<E> implements Iterable<E> {
     /**
      * Returns true if this tree is the sibling of the given tree.
      *
-     * @param sibling the tree TODO describe better
+     * @param sibling the other tree to test if this tree is the sibling of
      * @return true if this tree is the sibling of the given tree
      */
     public boolean isSiblingOf(BinaryTree<E> sibling) {
-        // have same parent?
         return this.getParent() == sibling.getParent();
     }
 
@@ -442,7 +441,7 @@ public class BinaryTree<E> implements Iterable<E> {
     /**
      * Returns true if this tree is the child of the given tree.
      *
-     * @param parent the tree TODO describe better
+     * @param parent the other tree to test if this tree is the child of
      * @return true if this tree is the child of the given tree
      */
     public boolean isChildOf(BinaryTree<E> parent) {
@@ -453,7 +452,7 @@ public class BinaryTree<E> implements Iterable<E> {
     /**
      * Returns true if this tree is a descendant of the given tree.
      *
-     * @param ancestor the tree TODO describe better
+     * @param ancestor the other tree to test if this tree is the descendant of
      * @return true if this tree is a descendant of the given tree
      */
     public boolean isDescendantOf(BinaryTree<E> ancestor) {
@@ -766,15 +765,73 @@ public class BinaryTree<E> implements Iterable<E> {
      * An iterator that uses level-order traversal to traverse a binary tree.
      */
     private class LevelOrderIterator<E> implements Iterator<E> {
-        // TODO implement LevelOrderIterator
+        private Queue<E> _queue; // initialize this as a LinkedList
+        Iterator<E> _queueIter;
 
-        // very different from other traversals
+        /**
+         * Constructs a new LevelOrderIterator.
+         *
+         * @param tree the tree to iterate over
+         */
+        public LevelOrderIterator(BinaryTree<E> tree) {
+            _queue = new LinkedList<E>();
+            this.levelOrder(tree);
+            _queueIter = _queue.iterator();
+        }
 
-        // visit nodes from level 0 to level h,
-        // from left to right within a level
 
-        // stack or *queue* to store children to visit later
-        // check Bailey book for more on algorithms
+        /**
+         * Populates a queue with the elements of the tree in the correct order.
+         *
+         * A private recursive helper method.
+         *
+         * @param tree the tree to iterate over
+         * @return
+         */
+        private void levelOrder(BinaryTree<E> tree) {
+            BinaryTree<E> tempQueue;
+            Queue<BinaryTree<E>> queue = new LinkedList<BinaryTree<E>>();
+            Queue<E> outputQueue = new LinkedList<E>();
+
+            queue.add(tree.getRoot());
+
+            while (! queue.isEmpty()) {
+                tempQueue = queue.remove();
+                if (tempQueue.hasLeftChild()) {
+                    queue.add(tempQueue.getLeftChild());
+                }
+                if (tempQueue.hasRightChild()) {
+                    queue.add(tempQueue.getRightChild());
+                }
+                outputQueue.add(tempQueue.getElement());
+            }
+        }
+
+
+        /**
+         * Returns true if there is another element in this iteration.
+         *
+         * @return true if there is another element in this iteration
+         */
+        public boolean hasNext() {
+            return _queueIter.hasNext();
+        }
+
+
+        /**
+         * Returns the next element in this iteration.
+         *
+         * @return the next element in this iteration
+         * @throws NoSuchElementException if there are no more elements in the iteration
+         */
+        public E next() {
+            if (hasNext()) {
+                return _queueIter.next();
+            }
+            else {
+                throw new NoSuchElementException();
+            }
+        }
     }
 
 
@@ -782,15 +839,9 @@ public class BinaryTree<E> implements Iterable<E> {
      * Sets the parent of this subtree to a new parent.
      *
      * @param parent the new parent of this subtree
-     * @throws IllegalArgumentException if parent is a descendant of this tree
      */
     private void setParent(BinaryTree<E> parent) {
-        if (! parent.isDescendantOf(this)) {
-            _parent = parent;
-        }
-        else {
-            throw new IllegalArgumentException();
-        }
+        _parent = parent;
     }
 
 
