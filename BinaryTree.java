@@ -398,7 +398,14 @@ public class BinaryTree<E> implements Iterable<E> {
             complete = true;
         }
         else {
-
+            if (this.hasLeftChild() && this.hasRightChild()) {
+                if (this.getLeftChild().isFull() && this.getRightChild().isComplete()) {
+                    complete = true;
+                }
+                if (this.getRightChild().isFull() && this.getLeftChild().isComplete()) {
+                    complete = true;
+                }
+            }
         }
 
         return complete;
@@ -565,6 +572,9 @@ public class BinaryTree<E> implements Iterable<E> {
         // use the in-order iterator, and on each iteration, add the value to the string
         // delimit values with commas and spaces
         // StringBuilder?
+
+        String outputString = "";
+
         for (E element : this) {
             // TODO build string
         }
@@ -577,6 +587,8 @@ public class BinaryTree<E> implements Iterable<E> {
         and ] suffix, if and only if you are using a utility toString method to generate the
         string.
          */
+
+        return outputString;
     }
 
 
