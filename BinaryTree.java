@@ -470,9 +470,7 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return a new iterator that uses pre-order traversal
      */
     public Iterator<E> preOrderIterator() {
-        // TODO implement preOrderIterator
-        // why is text red?
-        return new preOrderIterator(this);
+        return new PreOrderIterator(this);
     }
 
 
@@ -482,9 +480,7 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return a new iterator that uses in-order traversal
      */
     public Iterator<E> inOrderIterator() {
-        // TODO implement inOrderIterator
-        // why is text red?
-        return new inOrderIterator(this);
+        return new InOrderIterator(this);
     }
 
 
@@ -494,9 +490,7 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return a new iterator that uses post-order traversal
      */
     public Iterator<E> postOrderIterator() {
-        // TODO implement postOrderIterator
-        // why is text red?
-        return new postOrderIterator(this);
+        return new PostOrderIterator(this);
     }
 
 
@@ -507,8 +501,7 @@ public class BinaryTree<E> implements Iterable<E> {
      */
     public Iterator<E> levelOrderIterator() {
         // TODO implement levelOrderIterator
-        // why is text red?
-        return new levelOrderIterator(this);
+        return new LevelOrderIterator(this);
     }
 
 
@@ -542,19 +535,71 @@ public class BinaryTree<E> implements Iterable<E> {
      * An iterator that uses pre-order traversal to traverse a binary tree.
      */
     private class PreOrderIterator<E> implements Iterator<E> {
-        // TODO implement PreOrderIterator
-
-        // recursive
-
         // visit self
         // visit left child
         // visit right child
 
-        // can start at any node and iterate over its subtree
+        private Queue<E> _queue; // initialize this as a LinkedList
+        Iterator<E> _queueIter;
 
-        // self first
-        // left child's subtree in pre-order second (recursive)
-        // right child's subtree in pre-order third (recursive)
+        /**
+         * Constructs a new PreOrderIterator.
+         *
+         * @param tree the tree to iterate over
+         */
+        public PreOrderIterator(BinaryTree<E> tree) {
+            _queue = new LinkedList<E>();
+            this.preOrder(tree);
+            _queueIter = _queue.iterator();
+        }
+
+
+        /**
+         * Populates a queue with the elements of the tree in the correct order.
+         *
+         * A private recursive helper method.
+         *
+         * @param tree the tree to iterate over
+         * @return
+         */
+        private void preOrder(BinaryTree<E> tree) {
+            // visit self
+            _queue.add(tree.getElement());
+            // visit left child
+            if (tree.hasLeftChild()) {
+                preOrder(tree.getLeftChild());
+            }
+            // visit right child
+            if (tree.hasRightChild()) {
+                preOrder(tree.getRightChild());
+            }
+        }
+
+
+        /**
+         * Returns true if there is another element in this iteration.
+         *
+         * @return true if there is another element in this iteration
+         */
+        public boolean hasNext() {
+            return _queueIter.hasNext();
+        }
+
+
+        /**
+         * Returns the next element in this iteration.
+         *
+         * @return the next element in this iteration
+         * @throws NoSuchElementException if there are no more elements in the iteration
+         */
+        public E next() {
+            if (hasNext()) {
+                return _queueIter.next();
+            }
+            else {
+                throw new NoSuchElementException();
+            }
+        }
     }
 
 
@@ -564,9 +609,6 @@ public class BinaryTree<E> implements Iterable<E> {
     private class InOrderIterator<E> implements Iterator<E> {
         private Queue<E> _queue; // initialize this as a LinkedList
         Iterator<E> _queueIter;
-
-        // ctor:
-        // inOrder() (private helper that enqueues stuff according to algorithm rules)
 
         /**
          * Constructs a new InOrderIterator.
@@ -612,7 +654,76 @@ public class BinaryTree<E> implements Iterable<E> {
         }
 
 
-        // next() just goes thru queue
+        /**
+         * Returns the next element in this iteration.
+         *
+         * @return the next element in this iteration
+         * @throws NoSuchElementException if there are no more elements in the iteration
+         */
+        public E next() {
+            if (hasNext()) {
+                return _queueIter.next();
+            }
+            else {
+                throw new NoSuchElementException();
+            }
+        }
+    }
+
+
+    /**
+     * An iterator that uses post-order traversal to traverse a binary tree.
+     */
+    private class PostOrderIterator<E> implements Iterator<E> {
+        // visit left child's subtree
+        // visit right child's subtree
+        // visit self
+        private Queue<E> _queue; // initialize this as a LinkedList
+        Iterator<E> _queueIter;
+
+        /**
+         * Constructs a new PreOrderIterator.
+         *
+         * @param tree the tree to iterate over
+         */
+        public PostOrderIterator(BinaryTree<E> tree) {
+            _queue = new LinkedList<E>();
+            this.postOrder(tree);
+            _queueIter = _queue.iterator();
+        }
+
+
+        /**
+         * Populates a queue with the elements of the tree in the correct order.
+         *
+         * A private recursive helper method.
+         *
+         * @param tree the tree to iterate over
+         * @return
+         */
+        private void postOrder(BinaryTree<E> tree) {
+            // visit left child
+            if (tree.hasLeftChild()) {
+                postOrder(tree.getLeftChild());
+            }
+            // visit right child
+            if (tree.hasRightChild()) {
+                postOrder(tree.getRightChild());
+            }
+            // visit self
+            _queue.add(tree.getElement());
+        }
+
+
+        /**
+         * Returns true if there is another element in this iteration.
+         *
+         * @return true if there is another element in this iteration
+         */
+        public boolean hasNext() {
+            return _queueIter.hasNext();
+        }
+
 
         /**
          * Returns the next element in this iteration.
@@ -628,28 +739,6 @@ public class BinaryTree<E> implements Iterable<E> {
                 throw new NoSuchElementException();
             }
         }
-
-        // recursive private helper method
-
-        // recursive
-
-        // visit left child's subtree
-        // visit self
-        // visit right child's subtree
-    }
-
-
-    /**
-     * An iterator that uses post-order traversal to traverse a binary tree.
-     */
-    private class PostOrderIterator<E> implements Iterator<E> {
-        // TODO implement PostOrderIterator
-
-        // recursive
-
-        // visit left child's subtree
-        // visit right child's subtree
-        // visit self
     }
 
 
