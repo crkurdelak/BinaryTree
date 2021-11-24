@@ -349,18 +349,13 @@ public class BinaryTree<E> implements Iterable<E> {
     /**
      * Returns true if the subtree rooted at this node is full.
      *
+     * A full binary tree of height h only has leaves on level h, and every non-leaf node has 2
+     * children.
+     * A full binary tree has 2^h leaves on level h.
+     *
      * @return true if the subtree rooted at this node is full
      */
     public boolean isFull() {
-        // TODO implement isFull
-        // which algorithm do we use? where on the tree do we start?
-
-        // full tree only has leaves on level h, h = height, and every non-leaf node has 2 children
-        // full tree has 2^h leaves on level h, h being the height O(n)
-        // alternative:
-        // full tree has 2^(level number) nodes on each level
-        // if size == sum from 0 to h of 2^l, l = level, h = height, then tree is full
-
         int sum = 0;
         int height = this.height();
 
@@ -375,17 +370,12 @@ public class BinaryTree<E> implements Iterable<E> {
     /**
      * Returns true if the subtree rooted at this node is complete.
      *
+     * A complete binary tree of height h is an otherwise full binary tree with 0 or more of the
+     * rightmost leaves on level h removed.
+     *
      * @return true if the subtree rooted at this node is complete
      */
     public boolean isComplete() {
-        // TODO implement isComplete
-        // can we use this method in isFull or use isFull in this method?
-        // where on the tree do we start?
-
-        // a complete binary tree of height h is an otherwise full binary tree with 0 or more
-        // of the rightmost leaves on level h removed
-        // full trees are also complete
-
         // bailey book solutions to review question
 
         // complete?
