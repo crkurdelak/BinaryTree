@@ -558,26 +558,15 @@ public class BinaryTree<E> implements Iterable<E> {
      * tree
      */
     public String toString() {
-        // TODO implement toString
-        // use the in-order iterator, and on each iteration, add the value to the string
-        // delimit values with commas and spaces
-        // StringBuilder?
-
-        String outputString = "";
+        StringBuilder outputStringBuilder = new StringBuilder();
 
         for (E element : this) {
             // TODO build string
+            outputStringBuilder.append(element);
+            outputStringBuilder.append(", ");
         }
 
-
-        /*
-        The toString method  should  return  a  string  containing  the toString return  value  of
-        each  node’s element value in the tree, as visited by an in-order traversal of the tree,
-        joined by comma-space, e. g.,"A, D, B, E, C".  It is permissible to also include a [ prefix
-        and ] suffix, if and only if you are using a utility toString method to generate the
-        string.
-         */
-
+        String outputString = outputStringBuilder.toString();
         return outputString;
     }
 
