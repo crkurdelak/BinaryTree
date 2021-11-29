@@ -1,7 +1,4 @@
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.NoSuchElementException;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * A recursive data structure, where each tree node has an optional left and right child node.
@@ -590,15 +587,13 @@ public class BinaryTree<E> implements Iterable<E> {
      * tree
      */
     public String toString() {
-        StringBuilder outputStringBuilder = new StringBuilder();
+        ArrayList<E> a = new ArrayList<E>();
 
-        for (E element : this) {
-            outputStringBuilder.append(element);
-            outputStringBuilder.append(", ");
+        for (E e: this) {
+            a.add(e);
         }
 
-        String outputString = outputStringBuilder.toString();
-        return outputString;
+        return a.toString();
     }
 
 
