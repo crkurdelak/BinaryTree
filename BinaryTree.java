@@ -106,6 +106,7 @@ public class BinaryTree<E> implements Iterable<E> {
      * @throws IllegalArgumentException if child is an ancestor of this tree
      */
     public BinaryTree<E> setLeftChild(BinaryTree<E> child) {
+        // TODO make it able to set child to null
         if (! child.isAncestorOf(this)) {
             BinaryTree<E> oldChild = getLeftChild();
 
@@ -159,6 +160,7 @@ public class BinaryTree<E> implements Iterable<E> {
      * @throws IllegalArgumentException if child is an ancestor of this tree
      */
     public BinaryTree<E> setRightChild(BinaryTree<E> child) {
+        // TODO make it able to set child to null
         if (! child.isAncestorOf(this)) {
             BinaryTree<E> oldChild = getRightChild();
 
@@ -266,8 +268,9 @@ public class BinaryTree<E> implements Iterable<E> {
      */
     public int level() {
         int level;
+        // TODO fix this one
 
-        if (! this.isChild()) {
+        if (! this.getRoot().isChild()) {
             level = 0;
         }
         else {
@@ -419,23 +422,27 @@ public class BinaryTree<E> implements Iterable<E> {
      *
      * @param descendant the other tree to test if this tree is the ancestor of
      * @return true if this tree is an ancestor of the given subtree
+     * @throws IllegalArgumentException if the given descendant is null
      */
     public boolean isAncestorOf(BinaryTree<E> descendant) {
-        boolean isAncestor;
+        if (descendant != null) {
+            boolean isAncestor;
 
-        if (this.isParentOf(descendant)) {
-            isAncestor = true;
+            if (this.isParentOf(descendant)) {
+                isAncestor = true;
+            } else {
+                if (descendant.getParent() != null) {
+                    isAncestor = this.isAncestorOf(descendant.getParent());
+                } else {
+                    isAncestor = false;
+                }
+            }
+
+            return isAncestor;
         }
         else {
-            if (descendant.getParent() != null) {
-                isAncestor = this.isAncestorOf(descendant.getParent());
-            }
-            else {
-                isAncestor = false;
-            }
+            throw new IllegalArgumentException();
         }
-
-        return isAncestor;
     }
 
 
@@ -444,9 +451,15 @@ public class BinaryTree<E> implements Iterable<E> {
      *
      * @param child the other tree to test if this tree is the parent of
      * @return true if this tree is the parent of the given subtree
+     * @throws IllegalArgumentException if the given child is null
      */
     public boolean isParentOf(BinaryTree<E> child) {
-        return this.getLeftChild() == child || this.getRightChild() == child;
+        if (child != null) {
+            return this.getLeftChild() == child || this.getRightChild() == child;
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
     }
 
 
@@ -455,9 +468,15 @@ public class BinaryTree<E> implements Iterable<E> {
      *
      * @param sibling the other tree to test if this tree is the sibling of
      * @return true if this tree is the sibling of the given tree
+     * @throws IllegalArgumentException if the given sibling is null
      */
     public boolean isSiblingOf(BinaryTree<E> sibling) {
-        return this.getParent() == sibling.getParent();
+        if (sibling != null) {
+            return this.getParent() == sibling.getParent();
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
     }
 
 
@@ -466,9 +485,15 @@ public class BinaryTree<E> implements Iterable<E> {
      *
      * @param parent the other tree to test if this tree is the child of
      * @return true if this tree is the child of the given tree
+     * @throws IllegalArgumentException if the given parent is null
      */
     public boolean isChildOf(BinaryTree<E> parent) {
-        return this.getParent() == parent;
+        if (parent != null) {
+            return this.getParent() == parent;
+        }
+        else {
+            throw new IllegalArgumentException();
+        }
     }
 
 
@@ -477,23 +502,27 @@ public class BinaryTree<E> implements Iterable<E> {
      *
      * @param ancestor the other tree to test if this tree is the descendant of
      * @return true if this tree is a descendant of the given tree
+     * @throws IllegalArgumentException if the given ancestor is null
      */
     public boolean isDescendantOf(BinaryTree<E> ancestor) {
-        boolean isDescendant;
+        if (ancestor != null) {
+            boolean isDescendant;
 
-        if (ancestor.isParentOf(this)) {
-            isDescendant = true;
+            if (ancestor.isParentOf(this)) {
+                isDescendant = true;
+            } else {
+                if (this.getParent() != null) {
+                    isDescendant = this.getParent().isDescendantOf(ancestor);
+                } else {
+                    isDescendant = false;
+                }
+            }
+
+            return isDescendant;
         }
         else {
-            if (this.getParent() != null) {
-                isDescendant = this.getParent().isDescendantOf(ancestor);
-            }
-            else {
-                isDescendant = false;
-            }
+            throw new IllegalArgumentException();
         }
-
-        return isDescendant;
     }
 
 
