@@ -105,29 +105,33 @@ public class BinaryTree<E> implements Iterable<E> {
      * @throws IllegalArgumentException if child is an ancestor of this tree
      */
     public BinaryTree<E> setLeftChild(BinaryTree<E> child) {
-        // TODO make it able to set child to null
-        if (! child.isAncestorOf(this)) {
-            BinaryTree<E> oldChild = getLeftChild();
+        BinaryTree<E> oldChild = getLeftChild();
 
+        if (child == null) {
             _leftChild = null;
-
-            if (child.isChild()) {
-                BinaryTree<E> oldParent = child.getParent();
-                if (this.isLeftChildOf(oldParent)) {
-                    oldParent._leftChild = null;
-                } else {
-                    oldParent._rightChild = null;
-                }
-            }
-
-            _leftChild = child;
-            child.setParent(this);
-
-            return oldChild;
         }
         else {
-            throw new IllegalArgumentException();
+            if (!child.isAncestorOf(this)) {
+                _leftChild = null;
+
+                if (child.isChild()) {
+                    BinaryTree<E> oldParent = child.getParent();
+                    if (this.isLeftChildOf(oldParent)) {
+                        oldParent._leftChild = null;
+                    } else {
+                        oldParent._rightChild = null;
+                    }
+                }
+
+                _leftChild = child;
+                child.setParent(this);
+
+
+            } else {
+                throw new IllegalArgumentException();
+            }
         }
+        return oldChild;
     }
 
 
@@ -159,29 +163,32 @@ public class BinaryTree<E> implements Iterable<E> {
      * @throws IllegalArgumentException if child is an ancestor of this tree
      */
     public BinaryTree<E> setRightChild(BinaryTree<E> child) {
-        // TODO make it able to set child to null
-        if (! child.isAncestorOf(this)) {
-            BinaryTree<E> oldChild = getRightChild();
+        BinaryTree<E> oldChild = getRightChild();
 
+        if (child == null) {
             _rightChild = null;
-
-            if (child.isChild()) {
-                BinaryTree<E> oldParent = child.getParent();
-                if (this.isLeftChildOf(oldParent)) {
-                    oldParent._leftChild = null;
-                } else {
-                    oldParent._rightChild = null;
-                }
-            }
-
-            _rightChild = child;
-            child.setParent(this);
-
-            return oldChild;
         }
         else {
-            throw new IllegalArgumentException();
+            if (!child.isAncestorOf(this)) {
+                _rightChild = null;
+
+                if (child.isChild()) {
+                    BinaryTree<E> oldParent = child.getParent();
+                    if (this.isLeftChildOf(oldParent)) {
+                        oldParent._leftChild = null;
+                    } else {
+                        oldParent._rightChild = null;
+                    }
+                }
+
+                _rightChild = child;
+                child.setParent(this);
+
+            } else {
+                throw new IllegalArgumentException();
+            }
         }
+        return oldChild;
     }
 
 
@@ -244,7 +251,7 @@ public class BinaryTree<E> implements Iterable<E> {
         int rightHeight = 0;
 
         if (isLeaf()){
-            height = 1;
+            height = 0;
         }
         else {
             if (this.hasLeftChild()) {
@@ -253,7 +260,9 @@ public class BinaryTree<E> implements Iterable<E> {
             if (this.hasRightChild()) {
                 rightHeight = this.getRightChild().height();
             }
-            height = Math.max(leftHeight, rightHeight) + 1;
+            if (this.isParent()) {
+                height = Math.max(leftHeight, rightHeight) + 1;
+            }
         }
 
         return height;
@@ -261,13 +270,12 @@ public class BinaryTree<E> implements Iterable<E> {
 
 
     /**
-     * Returns the level of this tree.
+     * Returns the level of the entire tree.
      *
-     * @return the level of this tree
+     * @return the level of the entire tree
      */
     public int level() {
         int level;
-        // TODO fix level
 
         if (this == this.getRoot()) {
             level = 0;
@@ -361,7 +369,7 @@ public class BinaryTree<E> implements Iterable<E> {
         int sum = 0;
         int height = this.height();
 
-        for (int level = 0; level < height; level++) {
+        for (int level = 0; level <= height; level++) {
             sum += Math.pow(2, level);
         }
 
@@ -378,14 +386,6 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return true if the subtree rooted at this node is complete
      */
     public boolean isComplete() {
-        // bailey book solutions to review question
-
-        // complete?
-        // left full, right complete, height left = height right
-        // right full, left complete, height right = height left + 1
-
-        // TODO fix isComplete
-
         boolean complete = false;
 
         if (this.isLeaf()) {
@@ -396,7 +396,9 @@ public class BinaryTree<E> implements Iterable<E> {
                 if (this.getLeftChild().isFull() && this.getRightChild().isComplete()) {
                     complete = true;
                 }
-                if (this.getRightChild().isFull() && this.getLeftChild().isComplete()) {
+            }
+            else if (this.hasLeftChild()) {
+                if (this.getLeftChild().isComplete()) {
                     complete = true;
                 }
             }
@@ -414,8 +416,7 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return true if the subtree rooted at this node is degenerate
      */
     public boolean isDegenerate() {
-        // TODO fix isDegenerate
-        return this.height() == this.size() - 1;
+        return this.height() == (this.size() - 1);
     }
 
 
@@ -427,8 +428,6 @@ public class BinaryTree<E> implements Iterable<E> {
      * @throws IllegalArgumentException if the given descendant is null
      */
     public boolean isAncestorOf(BinaryTree<E> descendant) {
-        // TODO fix isAncestorOf
-
         if (descendant != null) {
             boolean isAncestor;
 
@@ -476,7 +475,7 @@ public class BinaryTree<E> implements Iterable<E> {
      */
     public boolean isSiblingOf(BinaryTree<E> sibling) {
         if (sibling != null) {
-            return this.getParent() == sibling.getParent();
+            return this.getParent() == sibling.getParent() && this != sibling;
         }
         else {
             throw new IllegalArgumentException();
@@ -509,7 +508,6 @@ public class BinaryTree<E> implements Iterable<E> {
      * @throws IllegalArgumentException if the given ancestor is null
      */
     public boolean isDescendantOf(BinaryTree<E> ancestor) {
-        // TODO fix isDescendantOf
         if (ancestor != null) {
             boolean isDescendant;
 
