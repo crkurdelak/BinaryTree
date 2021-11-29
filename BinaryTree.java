@@ -14,33 +14,6 @@ public class BinaryTree<E> implements Iterable<E> {
     private BinaryTree<E> _rightChild;
 
 
-    /*
-    You  will  likely  want  to  create  one  or  more  private  helper  methods,  specifically
-    to maintain  linkage between parent and child nodes.  Note that a user of
-    class BinaryTree should not be able to set a node’s parent directly; rather, one should set a
-    left or right child, which in turn maintains the parent of the new child.
-     */
-
-    /*
-    Setting a left or right child to null should result in pruning the entire subtree rooted at
-    that child node, and returning a reference to that subtree’s root.
-     */
-
-    /*
-    Any method call that would result in the internal state of the entire structure becoming
-    inconsistent (i. e.,not a binary tree),  such  as  attempting  to  set  the  left  child  of
-    a  leaf  to  the  root  of  the  entire tree,  should  throw IllegalArgumentException and
-    leave  the  tree  in  a  consistent  state.   Note  that this applies if and only if the
-    specific case is not already handled by the aforementioned parent/child detaching strategy
-     */
-
-    /*
-    Any method call that requires comparing a BinaryTree<E> to null (e. g., someTree.isAncestorOf
-    (null)) should throw IllegalArgumentException, rather than spuriously returning true or false
-    due to a null parent or child at some relevant level.
-     */
-
-
     /**
      * Constructs a new BinaryTree object.
      *
@@ -348,7 +321,6 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return true if this subtree is a leaf
      */
     public boolean isLeaf() {
-        // have no cjildren? degree == 0?
         return ! this.isParent();
     }
 
