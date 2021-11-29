@@ -11,7 +11,6 @@ import java.util.Queue;
  * @author ckurdelak20@georgefox.edu
  */
 public class BinaryTree<E> implements Iterable<E> {
-    // TODO implement class
     private E _value;
     private BinaryTree<E> _parent;
     private BinaryTree<E> _leftChild;
@@ -164,7 +163,7 @@ public class BinaryTree<E> implements Iterable<E> {
         if (! child.isAncestorOf(this)) {
             BinaryTree<E> oldChild = getRightChild();
 
-            _leftChild = null;
+            _rightChild = null;
 
             if (child.isChild()) {
                 BinaryTree<E> oldParent = child.getParent();
@@ -268,9 +267,9 @@ public class BinaryTree<E> implements Iterable<E> {
      */
     public int level() {
         int level;
-        // TODO fix this one
+        // TODO fix level
 
-        if (! this.getRoot().isChild()) {
+        if (this == this.getRoot()) {
             level = 0;
         }
         else {
@@ -385,6 +384,8 @@ public class BinaryTree<E> implements Iterable<E> {
         // left full, right complete, height left = height right
         // right full, left complete, height right = height left + 1
 
+        // TODO fix isComplete
+
         boolean complete = false;
 
         if (this.isLeaf()) {
@@ -413,6 +414,7 @@ public class BinaryTree<E> implements Iterable<E> {
      * @return true if the subtree rooted at this node is degenerate
      */
     public boolean isDegenerate() {
+        // TODO fix isDegenerate
         return this.height() == this.size() - 1;
     }
 
@@ -425,6 +427,8 @@ public class BinaryTree<E> implements Iterable<E> {
      * @throws IllegalArgumentException if the given descendant is null
      */
     public boolean isAncestorOf(BinaryTree<E> descendant) {
+        // TODO fix isAncestorOf
+
         if (descendant != null) {
             boolean isAncestor;
 
@@ -505,6 +509,7 @@ public class BinaryTree<E> implements Iterable<E> {
      * @throws IllegalArgumentException if the given ancestor is null
      */
     public boolean isDescendantOf(BinaryTree<E> ancestor) {
+        // TODO fix isDescendantOf
         if (ancestor != null) {
             boolean isDescendant;
 
@@ -590,7 +595,6 @@ public class BinaryTree<E> implements Iterable<E> {
         StringBuilder outputStringBuilder = new StringBuilder();
 
         for (E element : this) {
-            // TODO build string
             outputStringBuilder.append(element);
             outputStringBuilder.append(", ");
         }
